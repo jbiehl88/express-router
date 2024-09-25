@@ -1,6 +1,7 @@
 const express = require("express")
 const { User, Fruit } = require("../models/index")
 const app = require("../src/app")
+const { check, validationResult } = require("express-validator")
 
 const userRouter = express.Router()
 
@@ -15,9 +16,14 @@ userRouter.get("/:id", async (req, res) => {
 	res.json(user)
 })
 
-userRouter.post("/", async (req, res) => {
-	let createUser = await User.create(req.body)
-	res.json(createUser)
+userRouter.post("/", [check("name").not().isEmpty().trim()], async (req, res) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+		res.json({ error: errors.array() })
+	} else {
+		let createUser = await User.create(req.body)
+		res.json(createUser)
+	}
 })
 
 userRouter.put("/:id", async (req, res) => {

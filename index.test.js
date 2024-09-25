@@ -59,4 +59,24 @@ describe("User Tests", () => {
 		const users = await User.findAll({})
 		expect(users[0].id).toEqual(2)
 	})
+	it("checks user validator errors", async () => {
+		const response = await request(app).post("/users").send({ age: 18 })
+		expect(response.body.error).toContainEqual(
+			expect.objectContaining({
+				msg: "Invalid value",
+				param: "name",
+				location: "body",
+			})
+		)
+	})
+	it("checks fruit validator errors", async () => {
+		const response = await request(app).post("/fruits").send({ name: "IDGAG" })
+		expect(response.body.error).toContainEqual(
+			expect.objectContaining({
+				msg: "Invalid value",
+				param: "color",
+				location: "body",
+			})
+		)
+	})
 })
