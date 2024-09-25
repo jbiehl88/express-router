@@ -2,7 +2,7 @@
   "name": "express-router",
   "version": "1.0.0",
   "description": "Create Express routers using express.Router",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "seed": "node seed.js",
